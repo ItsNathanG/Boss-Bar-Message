@@ -1,6 +1,7 @@
 package me.itsnathang.bossbarmessage.util;
 
 import me.itsnathang.bossbarmessage.BossBarMessage;
+import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -41,5 +42,14 @@ public class ConfigManager {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    // Data File
+    public static String getMessage(String name) {
+        return data.getString("announcements." + name + ".message");
+    }
+
+    public static BarColor getColor(String name) {
+        return BarColor.valueOf(data.getString("announcements." + name + ".color"));
     }
 }
