@@ -2,3 +2,6 @@ name: BossBarMessage
 main: me.itsnathang.bossbarmessage.BossBarMessage
 author: NathanG
 version: ${version}
+commands:
+  bossbarmessage:
+    description: Initial Command
