@@ -4,4 +4,5 @@ author: NathanG
 version: ${version}
 commands:
   bossbarmessage:
+    aliases: [bm]
     description: Initial Command
