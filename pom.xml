@@ -18,12 +18,8 @@
             <url>http://repo.bstats.org/content/repositories/releases/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>skullcreator-repo</id>
-            <url>https://dl.bintray.com/deanveloper/SkullCreator</url>
+            <id>rayzr-repo</id>
+            <url>https://cdn.rawgit.com/Rayzr522/maven-repo/master/</url>
         </repository>
     </repositories>
 
@@ -41,16 +37,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.IPVP-MC</groupId>
-            <artifactId>Canvas</artifactId>
-            <version>master-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.deanveloper</groupId>
-            <artifactId>skullcreator</artifactId>
-            <version>1.0.2</version>
-            <scope>compile</scope>
+            <groupId>me.rayzr522</groupId>
+            <artifactId>jsonmessage</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

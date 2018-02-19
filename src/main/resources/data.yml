@@ -1,8 +1,0 @@
-#
-#
-announcements:
-  welcome:
-    type: bossbar
-    message: "This is a test announcement!"
-    color: PURPLE
-    length: 5
