@@ -59,14 +59,11 @@ public class Message {
             }
 
             else {
-                message.append(color(args[i])).append(" ");
+                message.append(args[i]).append(" ");
             }
         }
 
-        // TODO: If no player then broadcast message.
-        if (player == null)
-            player = (Player) sender;
-
+        // Refer to default values (in config) if not specified.
         if (color == null) {
             color = parseBarColor(ConfigManager.getDefault("bar-color", "purple"));
             // Something up with config file if this happens
@@ -85,7 +82,14 @@ public class Message {
             if (seconds == -1) seconds = 10;
         }
 
-        BossBarHandler.sendBar(player, color, style, seconds, message.toString());
+        // Send bar to everyone on server if no player is specified.
+        if (player == null) {
+            BossBarHandler.sendGlobal(color, style, seconds, color(message.toString()));
+            return;
+        }
+
+        // Send created bar to player specified.
+        BossBarHandler.sendBar(player, color, style, seconds, color(message.toString()));
     }
 
     private static Player parsePlayer(String message) {

@@ -15,38 +15,26 @@ public class BossBarHandler {
         plugin = p;
     }
 
-    // Send boss bar to an individual.
-    public static BossBar sendBar(String message, Player player, BarColor color) {
-        BossBar bar = Bukkit.createBossBar(message, color, BarStyle.SOLID);
-
-        //bar.setTitle(ConfigManager.getMessage(name));
-        //bar.setColor(ConfigManager.getColor(name));
-
-        bar.addPlayer(player);
-
-        return bar;
-    }
-
     // Send timed bar.
-    public static BossBar sendBar(Player player, BarColor color, BarStyle style, int time, String message) {
+    public static void sendBar(Player player, BarColor color, BarStyle style, int time, String message) {
         BossBar bar = Bukkit.createBossBar(message, color, style);
 
         bar.addPlayer(player);
 
-        Runnable remove_bar = bar::removeAll;
-
         new BarCountdown(bar, time).runTaskTimer(plugin, 0L, 20L);
 
-        plugin.getServer().getScheduler().runTaskLater(plugin, remove_bar, time * 20);
-
-        return bar;
+        plugin.getServer().getScheduler().runTaskLater(plugin, bar::removeAll, time * 20);
     }
 
     // Send boss bar to everyone one server.
-    public static void sendGlobal(String name) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            //sendBar(name, player);
-        }
+    public static void sendGlobal(BarColor color, BarStyle style, int time, String message) {
+        BossBar bar = Bukkit.createBossBar(message, color, style);
+
+        Bukkit.getOnlinePlayers().forEach(bar::addPlayer);
+
+        new BarCountdown(bar, time).runTaskTimer(plugin, 0L, 20L);
+
+        plugin.getServer().getScheduler().runTaskLater(plugin, bar::removeAll, time * 20);
     }
 
 
