@@ -23,42 +23,36 @@ help: >-
   &7You may use &a/bossbarmessage &7or &a/bm&7.%new_line%
   %new_line%
   &a/bm help &7Displays this screen.%new_line%
-  &a/bm reload &7Reload config & messages files.%new_line%
+  &a/bm reload &7Reload config and messages files.%new_line%
   &a/bm send &7Send out a boss bar message.%new_line%
   %new_line%
-  &7For usage information simple use the command.
+  &7For usage information simply use the command.
 
 # /bm reload
 reload: "%prefix% Config & messages successfully reloaded!"
 
-# /bm broadcast
+# /bm send
 help_broadcast: >-
       %new_line%
       %prefix% Broadcast Help Screen%new_line%
       %new_line%
-      &7Usage: &a/bm send <seconds> [flags] <message>%new_line%
+      &7Usage: &a/bm send [flags] <message>%new_line%
       &7Alias:   &a/bm broadcast&7, &a/bm bc%new_line%
       %new_line%
-      &7Possible Flags: &aplayer &7[&ap&7], &acolor &7[&ac&7], &astyle &7[&as&7], &apermission &7[&ape&7].%new_line%
+      &7Possible Flags: &aseconds &7[&as&7], &aplayer &7[&ap&7], &acolor &7[&ac&7], &atype &7[&at&7].%new_line%
       %new_line%
-      &7Example: &a/bm broadcast &25 &cc:purple &et:solid &rTest Broadcast!%new_line%
-
-# /bm broadcast
-help_message: >-
-      %new_line%
-      %prefix% Message Help Screen%new_line%
-      %new_line%
-      &7Usage: &a/bm message <player> <seconds> [flags] <message>%new_line%
-      &7Alias:   &a/bm msg%new_line%
-      %new_line%
-      &7Possible Flags: &acolor &7[c], &atype &7[t], &apermission &7[p].%new_line%
-      %new_line%
-      &7Example: &a/bm message &2Notch &210 &cc:purple &rHiya, Notch!%new_line%
+      &7Example: &a/bm broadcast &2t:5 &cc:purple &et:solid &rTest Broadcast!%new_line%
+      &7Example: &a/bm send &bplayer:Notch Hello Notch!
 
 # Error Messages
 command_not_recognized: "%prefix% &cCommand not recognized!"
 player_not_online: "%prefix% &cPlayer \"%value%\" is not online."
 parse_seconds: "%prefix% &c\"%value%\" is not a valid number."
 parse_color: >-
-      %prefix% &c"%value" is not a valid color.%new_line%
+      %prefix% &c"%value%" is not a valid bar color.%new_line%
+      %new_line%
       &7Colors: &aBlue&7, &aGreen&7, &aPink&7, &aPurple&7, &aRed&7, &aWhite&7, and &aYellow&7.
+parse_type: >-
+      %prefix% &c"%value%" is not a valid bar type.%new_line%
+      %new_line%
+      &7Types: &asolid&7, &asegmented_6&7, &asegmented_10&7, &asegmented_12&7, and &asegmented_20&7.
