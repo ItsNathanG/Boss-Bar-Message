@@ -39,7 +39,8 @@ public class BossBarHandler {
         BossBar bar = Bukkit.createBossBar(message, color, style);
 
         Bukkit.getOnlinePlayers().forEach((player) -> {
-            bar.setTitle(PlaceholderAPI.setPlaceholders(player, message));
+            if (placeholder_api)
+                bar.setTitle(PlaceholderAPI.setPlaceholders(player, message));
 
             bar.addPlayer(player);
         });
