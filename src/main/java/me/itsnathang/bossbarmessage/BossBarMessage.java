@@ -3,6 +3,7 @@ package me.itsnathang.bossbarmessage;
 import me.itsnathang.bossbarmessage.commands.CommandHandler;
 import me.itsnathang.bossbarmessage.util.BossBarHandler;
 import me.itsnathang.bossbarmessage.config.ConfigManager;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BossBarMessage extends JavaPlugin {
@@ -15,6 +16,9 @@ public class BossBarMessage extends JavaPlugin {
         new ConfigManager(this);
 
         new BossBarHandler(this);
+
+        // bStats
+        new MetricsLite(this);
     }
 
 }
