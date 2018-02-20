@@ -6,4 +6,8 @@ softdepend: [PlaceholderAPI]
 commands:
   bossbarmessage:
     aliases: [bm]
-    description: Initial Command
+    description: Boss Bar Message Main Command
+permissions:
+  bossbarmessage.admin:
+    default: op
+    description: Allows user to use /bossbarmessage
