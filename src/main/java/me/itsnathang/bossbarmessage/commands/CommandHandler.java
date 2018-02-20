@@ -17,6 +17,11 @@ public class CommandHandler implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("bossbarmessage.admin")) {
+            sender.sendMessage(tl("no_permission"));
+            return true;
+        }
+
         if (args.length == 0) {
             sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
             return true;
