@@ -42,7 +42,7 @@ help_broadcast: >-
       &7Possible Flags: &aseconds &7[&as&7], &aplayer &7[&ap&7], &acolor &7[&ac&7], &atype &7[&at&7].%new_line%
       %new_line%
       &7Example: &a/bm broadcast &2t:5 &cc:purple &et:solid &rTest Broadcast!%new_line%
-      &7Example: &a/bm send &bplayer:Notch Hello Notch!
+      &7Example: &a/bm send &bplayer:Notch &rHello Notch!
 
 # Error Messages
 command_not_recognized: "%prefix% &cCommand not recognized!"
