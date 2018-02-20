@@ -37,6 +37,4 @@ public class BossBarHandler {
         plugin.getServer().getScheduler().runTaskLater(plugin, bar::removeAll, time * 20);
     }
 
-
-
 }
