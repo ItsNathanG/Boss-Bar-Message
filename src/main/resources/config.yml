@@ -1,0 +1,30 @@
+##################################################################
+#  ___            ___           __  __                           #
+# | _ ) ___ _____| _ ) __ _ _ _|  \/  |___ ______ __ _ __ _ ___  #
+# | _ \/ _ (_-<_-< _ \/ _` | '_| |\/| / -_|_-<_-</ _` / _` / -_) #
+# |___/\___/__/__/___/\__,_|_| |_|  |_\___/__/__/\__,_\__, \___| #
+#                                                     |___/      #
+##################################################################
+
+#######
+# Defaults
+####
+# Default values to use
+# if not specified in
+# the command.
+# [possible values]
+
+# Default Bar Color
+# [blue|green|pink|purple|red|white|yellow]
+
+bar-color: purple
+
+# Default Type
+# [solid|segmented_6|segmented_10|segmented_12|segmented_20]
+
+bar-type: solid
+
+# Default Time Length (in seconds)
+# [whole numbers]
+
+bar-time: 10
