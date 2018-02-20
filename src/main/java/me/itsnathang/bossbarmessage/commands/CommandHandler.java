@@ -1,35 +1,47 @@
 package me.itsnathang.bossbarmessage.commands;
 
-import me.itsnathang.bossbarmessage.menu.BaseMenu;
-import me.itsnathang.bossbarmessage.util.BossBarHandler;
+import me.itsnathang.bossbarmessage.BossBarMessage;
+import me.itsnathang.bossbarmessage.config.ConfigManager;
+import me.itsnathang.bossbarmessage.config.LanguageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+
+import static me.itsnathang.bossbarmessage.util.Translate.tl;
 
 public class CommandHandler implements CommandExecutor {
+    private static BossBarMessage plugin;
+
+    public CommandHandler(BossBarMessage plugin) {
+        CommandHandler.plugin = plugin;
+    }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-        if (args.length < 1) {
-            sender.sendMessage("Usage: /bossbarmessage [menu|bar]");
+        if (args.length == 0) {
+            sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
             return true;
         }
 
-        switch (args[0]) {
-            case "menu":
-                BaseMenu.sendMenu((Player) sender);
-                break;
+        switch (args[0].toLowerCase()) {
+            // /bm <send|broadcast|bc>
+            case "send": case "broadcast": case "bc":
+                if (args.length == 1) {
+                    sender.sendMessage(tl("help_broadcast"));
+                    return true;
+                }
 
-            case "bar":
-                BossBarHandler.sendBar("welcome", (Player) sender);
-                break;
+                Message.sendBossBarMessage(sender, args);
+                return true;
+            case "reload":
+                ConfigManager.reloadConfig();
+                LanguageManager.reloadLanguage();
+                sender.sendMessage(tl("reload"));
+                return true;
 
-            case "help":
-                sender.sendMessage("Coming soon...");
-                break;
+            // /bm help or arg[0] not recognized
+            default: case "help":
+                sender.sendMessage(tl("help"));
+                return true;
         }
-
-        return true;
     }
 }
