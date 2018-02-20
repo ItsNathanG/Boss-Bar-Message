@@ -44,7 +44,7 @@ public class Message {
                 seconds = parseSeconds(args[i].replaceAll("(s|seconds):", ""));
 
                 if (seconds == -1) {
-                    sender.sendMessage(tl("parse_seconds").replace("%value%", args[1]));
+                    sender.sendMessage(tl("parse_seconds").replace("%value%", args[i]));
                     return;
                 }
             } else if (args[i].startsWith("permission:") || args[i].startsWith("pe:")) {
@@ -53,7 +53,7 @@ public class Message {
                 style = parseBarStyle(args[i].replaceAll("(t|type):", ""));
 
                 if (style == null) {
-                    sender.sendMessage(tl("parse_type").replace("%value%", args[1]));
+                    sender.sendMessage(tl("parse_type").replace("%value%", args[i]));
                     return;
                 }
             }
