@@ -37,12 +37,16 @@ public class CommandHandler implements CommandExecutor {
 
                 Message.sendBossBarMessage(sender, args);
                 return true;
+            // reload config files
             case "reload":
                 ConfigManager.reloadConfig();
                 LanguageManager.reloadLanguage();
                 sender.sendMessage(tl("reload"));
                 return true;
-
+            // send plugin version
+            case "version":
+                sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
+                return true;
             // /bm help or arg[0] not recognized
             default: case "help":
                 sender.sendMessage(tl("help"));
