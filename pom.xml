@@ -75,7 +75,7 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>me.itsnathang.picturelogin.util</shadedPattern>
+                            <shadedPattern>me.itsnathang.bossbarmessage.util</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
