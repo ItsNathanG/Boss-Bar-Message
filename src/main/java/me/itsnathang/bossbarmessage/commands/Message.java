@@ -16,9 +16,10 @@ public class Message {
     public static void sendBossBarMessage(CommandSender sender, String[] args) {
         StringBuilder message = new StringBuilder();
         Player player = null;
-        BarColor color = null;
-        BarStyle style = null;
-        int seconds = -1;
+        // grab default values from config file
+        BarColor color = parseBarColor(ConfigManager.getDefault("bar-color", "purple"));
+        BarStyle style = parseBarStyle(ConfigManager.getDefault("bar-type", "solid"));
+        int seconds = parseSeconds(ConfigManager.getDefault("bar-time", "10"));
 
         for (int i = 1; i < args.length; i++) {
             if (args[i].startsWith("player:") | args[i].startsWith("p:")) {
@@ -32,9 +33,7 @@ public class Message {
 
             } else if (args[i].startsWith("color:") || args[i].startsWith("c:")) {
 
-                color = parseBarColor(args[i].replaceAll("(c|color):", ""));
-
-                if (color == null) {
+                if ((color = parseBarColor(args[i].replaceAll("(c|color):", ""))) == null) {
                     sender.sendMessage(tl("parse_color").replace("%value%", args[i]));
                     return;
                 }
@@ -47,6 +46,7 @@ public class Message {
                     sender.sendMessage(tl("parse_seconds").replace("%value%", args[i]));
                     return;
                 }
+
             } else if (args[i].startsWith("permission:") || args[i].startsWith("pe:")) {
                 // TODO: Implement Permission
             } else if (args[i].startsWith("type:") || args[i].startsWith("t:")) {
@@ -63,24 +63,12 @@ public class Message {
             }
         }
 
-        // Refer to default values (in config) if not specified.
-        if (color == null) {
-            color = parseBarColor(ConfigManager.getDefault("bar-color", "purple"));
-            // Something up with config file if this happens
-            if (color == null) color = BarColor.PURPLE;
-        }
+        // Assign default values if couldn't read config & no input was provided.
+        if (color == null) color = BarColor.PURPLE;
 
-        if (style == null) {
-            style = parseBarStyle(ConfigManager.getDefault("bar-type", "solid"));
+        if (style == null) style = BarStyle.SOLID;
 
-            if (style == null) style = BarStyle.SOLID;
-        }
-
-        if (seconds == -1) {
-            seconds = parseSeconds(ConfigManager.getDefault("bar-time", "10"));
-
-            if (seconds == -1) seconds = 10;
-        }
+        if (seconds == -1) seconds = 10;
 
         // Send bar to everyone on server if no player is specified.
         if (player == null) {
