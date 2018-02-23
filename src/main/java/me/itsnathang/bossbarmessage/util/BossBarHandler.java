@@ -3,28 +3,24 @@ package me.itsnathang.bossbarmessage.util;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.itsnathang.bossbarmessage.BossBarMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 public class BossBarHandler {
-    private BossBarMessage plugin;
-    private Boolean placeholderApi;
+    private final BossBarMessage plugin;
+    private final Boolean PLACEHOLDER_API;
 
     public BossBarHandler(BossBarMessage plugin) {
         this.plugin = plugin;
 
         // PlaceholderAPI hook
-        placeholderApi = plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
+        PLACEHOLDER_API = plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
     // Send timed bar
-    public void sendBar(Player player, BarColor color, BarStyle style, int time, String message) {
-        if (placeholderApi)
-            message = PlaceholderAPI.setPlaceholders(player, message);
-
-        BossBar bar = Bukkit.createBossBar(message, color, style);
+    public void sendBar(BossBar bar, int time, Player player) {
+        if (PLACEHOLDER_API)
+            bar.setTitle(PlaceholderAPI.setPlaceholders(player, bar.getTitle()));
 
         bar.addPlayer(player);
 
@@ -34,12 +30,11 @@ public class BossBarHandler {
     }
 
     // Send boss bar to everyone one server.
-    public void sendGlobal(BarColor color, BarStyle style, int time, String message) {
-        BossBar bar = Bukkit.createBossBar(message, color, style);
+    public void sendGlobal(BossBar bar, int time) {
 
         Bukkit.getOnlinePlayers().forEach((player) -> {
-            if (placeholderApi)
-                bar.setTitle(PlaceholderAPI.setPlaceholders(player, message));
+            if (PLACEHOLDER_API)
+                bar.setTitle(PlaceholderAPI.setPlaceholders(player, bar.getTitle()));
 
             bar.addPlayer(player);
         });

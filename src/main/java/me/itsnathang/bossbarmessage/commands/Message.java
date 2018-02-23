@@ -4,22 +4,25 @@ import static me.itsnathang.bossbarmessage.util.Color.color;
 import static me.itsnathang.bossbarmessage.util.Translate.tl;
 
 import me.itsnathang.bossbarmessage.BossBarMessage;
-import me.itsnathang.bossbarmessage.util.BossBarHandler;
 
+import me.itsnathang.bossbarmessage.util.BarBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Message {
+class Message {
 
     public void sendBossBarMessage(BossBarMessage plugin, CommandSender sender, String[] args) {
         StringBuilder message = new StringBuilder();
         Player player = null;
+        // set bar defaults;
+        BarBuilder bar = new BarBuilder(
+                parseBarColor(plugin.getConfigManager().getDefault("bar-color", "purple")),
+                parseBarStyle(plugin.getConfigManager().getDefault("bar-type", "solid"))).get();
+
         // grab default values from config file
-        BarColor color = parseBarColor(plugin.getConfigManager().getDefault("bar-color", "purple"));
-        BarStyle style = parseBarStyle(plugin.getConfigManager().getDefault("bar-type", "solid"));
         int seconds = parseSeconds(plugin.getConfigManager().getDefault("bar-time", "10"));
 
         for (int i = 1; i < args.length; i++) {
@@ -35,10 +38,12 @@ public class Message {
 
             } else if ((parsed = readValue(arg, "color:", "c:")) != null) {
 
-                if ((color = parseBarColor(parsed)) == null) {
+                if (parseBarColor(parsed) == null) {
                     sender.sendMessage(tl("parse_color").replace("%value%", parsed));
                     return;
                 }
+
+                bar.color(parseBarColor(parsed));
 
             } else if ((parsed = readValue(arg, "seconds:", "s:")) != null) {
 
@@ -53,30 +58,30 @@ public class Message {
 
             } */ else if ((parsed = readValue(arg, "type:", "t:")) != null) {
 
-                if ((style = parseBarStyle(parsed)) == null) {
+                if (parseBarStyle(parsed) == null) {
                     sender.sendMessage(tl("parse_type").replace("%value%", parsed));
                     return;
                 }
+
+                bar.style(parseBarStyle(parsed));
 
             } else { message.append(arg).append(" "); }
         }
 
         // Assign default values if couldn't read config & no input was provided.
-        if (color == null) color = BarColor.PURPLE;
-
-        if (style == null) style = BarStyle.SOLID;
-
         if (seconds == -1) seconds = 10;
+
+        bar.title(color(message.toString()));
+
 
         // Send bar to everyone on server if no player is specified.
         if (player == null) {
-            new BossBarHandler(plugin).sendGlobal(color, style, seconds, color(message.toString()));
+            plugin.getBarHandler().sendGlobal(bar.build(), seconds);
             return;
         }
 
         // Send created bar to player specified.
-        new BossBarHandler(plugin)
-                .sendBar(player, color, style, seconds, color(message.toString()));
+        plugin.getBarHandler().sendBar(bar.build(), seconds, player);
     }
 
     private String readValue(String message, String... prefixes) {
