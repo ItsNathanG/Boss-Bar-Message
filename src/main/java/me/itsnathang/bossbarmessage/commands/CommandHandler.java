@@ -15,13 +15,11 @@ public class CommandHandler implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("bossbarmessage.admin")) {
-            sender.sendMessage(tl("no_permission"));
-            return true;
-        }
+        if (!checkPermission(sender, "bossbarmessage.admin"))
+            return false;
 
         if (args.length == 0) {
-            sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
+            sendVersion(sender);
             return true;
         }
 
@@ -34,21 +32,34 @@ public class CommandHandler implements CommandExecutor {
                 }
 
                 new Message().sendBossBarMessage(plugin, sender, args);
-                return true;
-            // reload config files
-            case "reload":
-                plugin.getConfigManager().reloadConfig();
-                plugin.getLanguage().reloadLanguage();
-                sender.sendMessage(tl("reload"));
-                return true;
-            // send plugin version
-            case "version":
-                sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
-                return true;
+
+            case "reload": reload(sender);
+
+            case "version": sendVersion(sender);
+
             // /bm help or arg[0] not recognized
             case "help": default:
                 sender.sendMessage(tl("help"));
-                return false;
         }
+
+        return true;
+    }
+
+    private boolean checkPermission(CommandSender sender, String permission) {
+        if (sender.hasPermission(permission))
+            return true;
+
+        sender.sendMessage(tl("no_permission"));
+        return false;
+    }
+
+    private void sendVersion(CommandSender sender) {
+        sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
+    }
+
+    private void reload(CommandSender sender) {
+        plugin.getConfigManager().reloadConfig();
+        plugin.getLanguage().reloadLanguage();
+        sender.sendMessage(tl("reload"));
     }
 }
