@@ -3,6 +3,8 @@ package me.itsnathang.bossbarmessage.util;
 import java.util.regex.Pattern;
 
 public class Color {
+    private Color() { throw new IllegalStateException("Utility Class"); }
+
     // CREDIT: LuckyPerms (MIT License)
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]");
 
