@@ -21,46 +21,42 @@ public class Message {
         BarStyle style = parseBarStyle(ConfigManager.getDefault("bar-type", "solid"));
         int seconds = parseSeconds(ConfigManager.getDefault("bar-time", "10"));
 
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].startsWith("player:") | args[i].startsWith("p:")) {
+        for (String arg : args) {
+            String parsed;
 
-                player = parsePlayer(args[i].replaceAll("(p|player):", ""));
+            if ((parsed = readValue(arg, "player:", "p:")) != null) {
 
-                if (player == null) {
-                    sender.sendMessage(tl("player_not_online").replace("%value%", args[i]));
+                if ((player = parsePlayer(parsed)) == null) {
+                    sender.sendMessage(tl("player_not_online").replace("%value%", arg));
                     return;
                 }
 
-            } else if (args[i].startsWith("color:") || args[i].startsWith("c:")) {
+            } else if ((parsed = readValue(arg, "color:", "c:")) != null) {
 
-                if ((color = parseBarColor(args[i].replaceAll("(c|color):", ""))) == null) {
-                    sender.sendMessage(tl("parse_color").replace("%value%", args[i]));
+                if ((color = parseBarColor(parsed)) == null) {
+                    sender.sendMessage(tl("parse_color").replace("%value%", arg));
                     return;
                 }
 
-            } else if (args[i].startsWith("seconds:") || args[i].startsWith("s:")) {
+            } else if ((parsed = readValue(arg, "seconds:", "s:")) != null) {
 
-                seconds = parseSeconds(args[i].replaceAll("(s|seconds):", ""));
-
-                if (seconds == -1) {
-                    sender.sendMessage(tl("parse_seconds").replace("%value%", args[i]));
+                if ((seconds = parseSeconds(parsed)) == -1) {
+                    sender.sendMessage(tl("parse_seconds").replace("%value%", arg));
                     return;
                 }
 
-            } else if (args[i].startsWith("permission:") || args[i].startsWith("pe:")) {
-                // TODO: Implement Permission
-            } else if (args[i].startsWith("type:") || args[i].startsWith("t:")) {
-                style = parseBarStyle(args[i].replaceAll("(t|type):", ""));
+            } else if ((parsed = readValue(arg, "permission:", "pe:")) != null) {
 
-                if (style == null) {
-                    sender.sendMessage(tl("parse_type").replace("%value%", args[i]));
+                // TODO: implement permission-based messages
+
+            } else if ((parsed = readValue(arg, "type:", "t:")) != null) {
+
+                if ((style = parseBarStyle(parsed)) == null) {
+                    sender.sendMessage(tl("parse_type").replace("%value%", arg));
                     return;
                 }
-            }
 
-            else {
-                message.append(args[i]).append(" ");
-            }
+            } else { message.append(arg).append(" "); }
         }
 
         // Assign default values if couldn't read config & no input was provided.
@@ -78,6 +74,14 @@ public class Message {
 
         // Send created bar to player specified.
         BossBarHandler.sendBar(player, color, style, seconds, color(message.toString()));
+    }
+
+    private static String readValue(String message, String... prefixes) {
+        for (String prefix : prefixes)
+            if (message.startsWith(prefix))
+                return prefix.replace(prefix, "");
+
+        return null;
     }
 
     private static Player parsePlayer(String message) {
