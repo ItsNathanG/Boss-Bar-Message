@@ -1,23 +1,24 @@
 package me.itsnathang.bossbarmessage.config;
 
 import me.itsnathang.bossbarmessage.BossBarMessage;
+import me.itsnathang.bossbarmessage.util.Translate;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-import static me.itsnathang.bossbarmessage.util.Color.color;
-
 public class LanguageManager {
-    private static YamlConfiguration messages;
-    private static BossBarMessage plugin;
+    private YamlConfiguration messages;
+    private BossBarMessage plugin;
 
-    LanguageManager(BossBarMessage pl) {
-        plugin = pl;
+    public LanguageManager(BossBarMessage plugin) {
+        this.plugin = plugin;
 
         messages = loadLanguage();
+
+        new Translate(messages);
     }
 
-    private static YamlConfiguration loadLanguage() {
+    private YamlConfiguration loadLanguage() {
         File language_file = new File(plugin.getDataFolder() + File.separator + "messages.yml");
 
         if (!language_file.exists())
@@ -26,12 +27,10 @@ public class LanguageManager {
         return YamlConfiguration.loadConfiguration(language_file);
     }
 
-    public static void reloadLanguage() { messages = loadLanguage(); }
+    public void reloadLanguage() {
+        messages = loadLanguage();
 
-    public static String getFilteredTranslation(String key) {
-        return color(messages.getString(key)
-                .replace("%prefix%", messages.getString("prefix"))
-                .replace("%new_line%", "\n"));
+        new Translate(messages);
     }
 
 }

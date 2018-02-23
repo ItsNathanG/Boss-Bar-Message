@@ -1,8 +1,6 @@
 package me.itsnathang.bossbarmessage.commands;
 
 import me.itsnathang.bossbarmessage.BossBarMessage;
-import me.itsnathang.bossbarmessage.config.ConfigManager;
-import me.itsnathang.bossbarmessage.config.LanguageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import static me.itsnathang.bossbarmessage.util.Translate.tl;
 
 public class CommandHandler implements CommandExecutor {
-    private static BossBarMessage plugin;
+    private BossBarMessage plugin;
 
     public CommandHandler(BossBarMessage plugin) {
-        CommandHandler.plugin = plugin;
+        this.plugin = plugin;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -35,12 +33,12 @@ public class CommandHandler implements CommandExecutor {
                     return true;
                 }
 
-                Message.sendBossBarMessage(sender, args);
+                new Message().sendBossBarMessage(plugin, sender, args);
                 return true;
             // reload config files
             case "reload":
-                ConfigManager.reloadConfig();
-                LanguageManager.reloadLanguage();
+                plugin.getConfigManager().reloadConfig();
+                plugin.getLanguage().reloadLanguage();
                 sender.sendMessage(tl("reload"));
                 return true;
             // send plugin version
@@ -48,9 +46,9 @@ public class CommandHandler implements CommandExecutor {
                 sender.sendMessage(tl("version").replace("%version%", plugin.getDescription().getVersion()));
                 return true;
             // /bm help or arg[0] not recognized
-            default: case "help":
+            case "help": default:
                 sender.sendMessage(tl("help"));
-                return true;
+                return false;
         }
     }
 }

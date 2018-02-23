@@ -8,7 +8,7 @@ public class BarCountdown extends BukkitRunnable {
     private Integer time_left;
     private Integer total_time;
 
-    public BarCountdown(BossBar b, int times) {
+    BarCountdown(BossBar b, int times) {
         this.bar = b;
         this.total_time = times;
         this.time_left = times;

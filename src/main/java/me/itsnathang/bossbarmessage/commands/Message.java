@@ -1,6 +1,7 @@
 package me.itsnathang.bossbarmessage.commands;
 
-import me.itsnathang.bossbarmessage.config.ConfigManager;
+import com.google.common.collect.Iterables;
+import me.itsnathang.bossbarmessage.BossBarMessage;
 import me.itsnathang.bossbarmessage.util.BossBarHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -8,40 +9,43 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 import static me.itsnathang.bossbarmessage.util.Color.color;
 import static me.itsnathang.bossbarmessage.util.Translate.tl;
 
 public class Message {
 
-    public static void sendBossBarMessage(CommandSender sender, String[] args) {
+    public void sendBossBarMessage(BossBarMessage plugin, CommandSender sender, String[] args) {
         StringBuilder message = new StringBuilder();
         Player player = null;
         // grab default values from config file
-        BarColor color = parseBarColor(ConfigManager.getDefault("bar-color", "purple"));
-        BarStyle style = parseBarStyle(ConfigManager.getDefault("bar-type", "solid"));
-        int seconds = parseSeconds(ConfigManager.getDefault("bar-time", "10"));
+        BarColor color = parseBarColor(plugin.getConfigManager().getDefault("bar-color", "purple"));
+        BarStyle style = parseBarStyle(plugin.getConfigManager().getDefault("bar-type", "solid"));
+        int seconds = parseSeconds(plugin.getConfigManager().getDefault("bar-time", "10"));
 
-        for (String arg : args) {
+        for (int i = 1; i < args.length; i++) {
+            String arg = args[i];
             String parsed;
 
             if ((parsed = readValue(arg, "player:", "p:")) != null) {
 
                 if ((player = parsePlayer(parsed)) == null) {
-                    sender.sendMessage(tl("player_not_online").replace("%value%", arg));
+                    sender.sendMessage(tl("player_not_online").replace("%value%", parsed));
                     return;
                 }
 
             } else if ((parsed = readValue(arg, "color:", "c:")) != null) {
 
                 if ((color = parseBarColor(parsed)) == null) {
-                    sender.sendMessage(tl("parse_color").replace("%value%", arg));
+                    sender.sendMessage(tl("parse_color").replace("%value%", parsed));
                     return;
                 }
 
             } else if ((parsed = readValue(arg, "seconds:", "s:")) != null) {
 
                 if ((seconds = parseSeconds(parsed)) == -1) {
-                    sender.sendMessage(tl("parse_seconds").replace("%value%", arg));
+                    sender.sendMessage(tl("parse_seconds").replace("%value%", parsed));
                     return;
                 }
 
@@ -52,7 +56,7 @@ public class Message {
             } else if ((parsed = readValue(arg, "type:", "t:")) != null) {
 
                 if ((style = parseBarStyle(parsed)) == null) {
-                    sender.sendMessage(tl("parse_type").replace("%value%", arg));
+                    sender.sendMessage(tl("parse_type").replace("%value%", parsed));
                     return;
                 }
 
@@ -68,23 +72,23 @@ public class Message {
 
         // Send bar to everyone on server if no player is specified.
         if (player == null) {
-            BossBarHandler.sendGlobal(color, style, seconds, color(message.toString()));
+            new BossBarHandler(plugin).sendGlobal(color, style, seconds, color(message.toString()));
             return;
         }
 
         // Send created bar to player specified.
-        BossBarHandler.sendBar(player, color, style, seconds, color(message.toString()));
+        new BossBarHandler(plugin).sendBar(player, color, style, seconds, color(message.toString()));
     }
 
-    private static String readValue(String message, String... prefixes) {
+    private String readValue(String message, String... prefixes) {
         for (String prefix : prefixes)
             if (message.startsWith(prefix))
-                return prefix.replace(prefix, "");
+                return message.replace(prefix, "");
 
         return null;
     }
 
-    private static Player parsePlayer(String message) {
+    private Player parsePlayer(String message) {
         Player player = Bukkit.getPlayer(message);
 
         if (player == null)
@@ -93,7 +97,7 @@ public class Message {
         return player;
     }
 
-    private static BarColor parseBarColor(String message) {
+    private BarColor parseBarColor(String message) {
         try {
             return BarColor.valueOf(message.toUpperCase());
         } catch (Exception e) {
@@ -101,7 +105,7 @@ public class Message {
         }
     }
 
-    private static int parseSeconds(String message) {
+    private int parseSeconds(String message) {
         try {
             return Integer.parseInt(message);
         } catch (NumberFormatException e) {
@@ -109,7 +113,7 @@ public class Message {
         }
     }
 
-    private static BarStyle parseBarStyle(String message) {
+    private BarStyle parseBarStyle(String message) {
         try {
             return BarStyle.valueOf(message.toUpperCase());
         } catch (Exception e) {

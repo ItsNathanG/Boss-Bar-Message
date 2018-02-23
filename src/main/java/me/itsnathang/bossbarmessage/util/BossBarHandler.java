@@ -10,18 +10,18 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 public class BossBarHandler {
-    private static BossBarMessage plugin;
-    private static Boolean placeholder_api;
+    private BossBarMessage plugin;
+    private Boolean placeholder_api;
 
     public BossBarHandler(BossBarMessage plugin) {
-        BossBarHandler.plugin = plugin;
+        this.plugin = plugin;
 
         // PlaceholderAPI hook
         placeholder_api = plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
     // Send timed bar
-    public static void sendBar(Player player, BarColor color, BarStyle style, int time, String message) {
+    public void sendBar(Player player, BarColor color, BarStyle style, int time, String message) {
         if (placeholder_api)
             message = PlaceholderAPI.setPlaceholders(player, message);
 
@@ -35,7 +35,7 @@ public class BossBarHandler {
     }
 
     // Send boss bar to everyone one server.
-    public static void sendGlobal(BarColor color, BarStyle style, int time, String message) {
+    public void sendGlobal(BarColor color, BarStyle style, int time, String message) {
         BossBar bar = Bukkit.createBossBar(message, color, style);
 
         Bukkit.getOnlinePlayers().forEach((player) -> {

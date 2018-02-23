@@ -1,6 +1,7 @@
 package me.itsnathang.bossbarmessage.config;
 
 import me.itsnathang.bossbarmessage.BossBarMessage;
+import me.itsnathang.bossbarmessage.util.BossBarHandler;
 import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -8,19 +9,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class ConfigManager {
-    private static YamlConfiguration config;
-    private static BossBarMessage plugin;
+    private YamlConfiguration config;
+    private final BossBarMessage plugin;
 
     // Try to load configuration files.
     public ConfigManager(BossBarMessage plugin) {
-        ConfigManager.plugin = plugin;
-
-        new LanguageManager(plugin);
+        this.plugin = plugin;
 
         reloadConfig();
     }
 
-    public static void reloadConfig() {
+    public void reloadConfig() {
         File conf = new File(plugin.getDataFolder() + File.separator + "config.yml");
 
         if(!conf.exists())
@@ -29,11 +28,11 @@ public class ConfigManager {
         config = YamlConfiguration.loadConfiguration(conf);
     }
 
-    public static String getDefault(String key) {
+    public String getDefault(String key) {
         return config.getString(key);
     }
 
-    public static String getDefault(String key, String def) {
+    public String getDefault(String key, String def) {
         return config.getString(key, def);
     }
 
