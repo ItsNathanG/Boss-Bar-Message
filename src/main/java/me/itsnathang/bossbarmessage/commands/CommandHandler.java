@@ -32,11 +32,13 @@ public class CommandHandler implements CommandExecutor {
                 }
 
                 new Message().sendBossBarMessage(plugin, sender, args);
-
-            case "reload": reload(sender);
-
-            case "version": sendVersion(sender);
-
+                break;
+            case "reload":
+                reload(sender);
+                break;
+            case "version":
+                sendVersion(sender);
+                break;
             // /bm help or arg[0] not recognized
             case "help": default:
                 sender.sendMessage(tl("help"));

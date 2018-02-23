@@ -17,7 +17,7 @@ class Message {
     public void sendBossBarMessage(BossBarMessage plugin, CommandSender sender, String[] args) {
         StringBuilder message = new StringBuilder();
         Player player = null;
-        // set bar defaults;
+        // set bar defaults
         BarBuilder bar = new BarBuilder(
                 parseBarColor(plugin.getConfigManager().getDefault("bar-color", "purple")),
                 parseBarStyle(plugin.getConfigManager().getDefault("bar-type", "solid"))).get();
@@ -72,7 +72,6 @@ class Message {
         if (seconds == -1) seconds = 10;
 
         bar.title(color(message.toString()));
-
 
         // Send bar to everyone on server if no player is specified.
         if (player == null) {
