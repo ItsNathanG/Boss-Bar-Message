@@ -3,10 +3,10 @@ package me.itsnathang.bossbarmessage.util;
 import org.bukkit.boss.BossBar;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class BarCountdown extends BukkitRunnable {
+class BarCountdown extends BukkitRunnable {
     private final BossBar bar;
     private Integer timeLeft;
-    private Integer timeTotal;
+    private final Integer timeTotal;
 
     BarCountdown(BossBar b, int times) {
         this.bar = b;

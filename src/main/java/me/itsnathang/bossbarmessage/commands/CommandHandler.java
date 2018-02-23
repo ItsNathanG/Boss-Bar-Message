@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandHandler implements CommandExecutor {
-    private BossBarMessage plugin;
+    private final BossBarMessage plugin;
 
     public CommandHandler(BossBarMessage plugin) {
         this.plugin = plugin;

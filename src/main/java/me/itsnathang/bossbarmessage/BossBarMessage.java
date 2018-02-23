@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BossBarMessage extends JavaPlugin {
     private ConfigManager config;
     private LanguageManager language;
+    private BossBarHandler barHandler;
 
     @Override
     public void onEnable() {
@@ -19,7 +20,7 @@ public class BossBarMessage extends JavaPlugin {
         config = new ConfigManager(this);
         language = new LanguageManager(this);
 
-        new BossBarHandler(this);
+        barHandler = new BossBarHandler(this);
 
         // bStats
         new MetricsLite(this);
@@ -31,5 +32,9 @@ public class BossBarMessage extends JavaPlugin {
 
     public LanguageManager getLanguage() {
         return language;
+    }
+
+    public BossBarHandler getBarHandler() {
+        return barHandler;
     }
 }

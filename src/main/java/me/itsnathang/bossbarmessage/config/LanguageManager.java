@@ -8,7 +8,7 @@ import java.io.File;
 
 public class LanguageManager {
     private YamlConfiguration messages;
-    private BossBarMessage plugin;
+    private final BossBarMessage plugin;
 
     public LanguageManager(BossBarMessage plugin) {
         this.plugin = plugin;
