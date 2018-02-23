@@ -2,7 +2,6 @@ package me.itsnathang.bossbarmessage.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.itsnathang.bossbarmessage.BossBarMessage;
-import me.itsnathang.bossbarmessage.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -11,18 +10,18 @@ import org.bukkit.entity.Player;
 
 public class BossBarHandler {
     private BossBarMessage plugin;
-    private Boolean placeholder_api;
+    private Boolean placeholderApi;
 
     public BossBarHandler(BossBarMessage plugin) {
         this.plugin = plugin;
 
         // PlaceholderAPI hook
-        placeholder_api = plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
+        placeholderApi = plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
     // Send timed bar
     public void sendBar(Player player, BarColor color, BarStyle style, int time, String message) {
-        if (placeholder_api)
+        if (placeholderApi)
             message = PlaceholderAPI.setPlaceholders(player, message);
 
         BossBar bar = Bukkit.createBossBar(message, color, style);
@@ -39,7 +38,7 @@ public class BossBarHandler {
         BossBar bar = Bukkit.createBossBar(message, color, style);
 
         Bukkit.getOnlinePlayers().forEach((player) -> {
-            if (placeholder_api)
+            if (placeholderApi)
                 bar.setTitle(PlaceholderAPI.setPlaceholders(player, message));
 
             bar.addPlayer(player);

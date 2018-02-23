@@ -1,18 +1,16 @@
 package me.itsnathang.bossbarmessage.commands;
 
-import com.google.common.collect.Iterables;
+import static me.itsnathang.bossbarmessage.util.Color.color;
+import static me.itsnathang.bossbarmessage.util.Translate.tl;
+
 import me.itsnathang.bossbarmessage.BossBarMessage;
 import me.itsnathang.bossbarmessage.util.BossBarHandler;
+
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-
-import static me.itsnathang.bossbarmessage.util.Color.color;
-import static me.itsnathang.bossbarmessage.util.Translate.tl;
 
 public class Message {
 
@@ -49,11 +47,11 @@ public class Message {
                     return;
                 }
 
-            } else if ((parsed = readValue(arg, "permission:", "pe:")) != null) {
+            } /* else if ((parsed = readValue(arg, "permission:", "pe:")) != null) {
 
                 // TODO: implement permission-based messages
 
-            } else if ((parsed = readValue(arg, "type:", "t:")) != null) {
+            } */ else if ((parsed = readValue(arg, "type:", "t:")) != null) {
 
                 if ((style = parseBarStyle(parsed)) == null) {
                     sender.sendMessage(tl("parse_type").replace("%value%", parsed));
@@ -77,7 +75,8 @@ public class Message {
         }
 
         // Send created bar to player specified.
-        new BossBarHandler(plugin).sendBar(player, color, style, seconds, color(message.toString()));
+        new BossBarHandler(plugin)
+                .sendBar(player, color, style, seconds, color(message.toString()));
     }
 
     private String readValue(String message, String... prefixes) {

@@ -5,21 +5,21 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class BarCountdown extends BukkitRunnable {
     private final BossBar bar;
-    private Integer time_left;
-    private Integer total_time;
+    private Integer timeLeft;
+    private Integer timeTotal;
 
     BarCountdown(BossBar b, int times) {
         this.bar = b;
-        this.total_time = times;
-        this.time_left = times;
+        this.timeTotal = times;
+        this.timeLeft = times;
     }
 
     @Override
     public void run() {
-        if (time_left > 0) {
-            bar.setProgress(time_left.doubleValue() / total_time.doubleValue());
+        if (timeLeft > 0) {
+            bar.setProgress(timeLeft.doubleValue() / timeTotal.doubleValue());
 
-            time_left--;
+            timeLeft--;
         } else {
             this.cancel();
         }

@@ -1,11 +1,11 @@
 package me.itsnathang.bossbarmessage.commands;
 
+import static me.itsnathang.bossbarmessage.util.Translate.tl;
+
 import me.itsnathang.bossbarmessage.BossBarMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import static me.itsnathang.bossbarmessage.util.Translate.tl;
 
 public class CommandHandler implements CommandExecutor {
     private BossBarMessage plugin;
